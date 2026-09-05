@@ -35,7 +35,7 @@ public class AuthService {
     @Transactional
     public void register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.email())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Ja existe um usuario com este e-mail");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Já existe um usuário com este e-mail");
         }
 
         User user = User.builder()
@@ -54,7 +54,7 @@ public class AuthService {
                 new UsernamePasswordAuthenticationToken(request.email(), request.password()));
 
         User user = userRepository.findByEmail(request.email())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Credenciais invalidas"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Credenciais inválidas"));
 
         return issueTokenPair(user);
     }
@@ -65,7 +65,7 @@ public class AuthService {
         try {
             email = jwtService.parseAndValidateRefreshToken(refreshTokenValue);
         } catch (JWTVerificationException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Refresh token invalido ou expirado");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Refresh token inválido ou expirado");
         }
 
         RefreshToken stored = refreshTokenRepository.findByToken(refreshTokenValue)
@@ -76,7 +76,7 @@ public class AuthService {
         }
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario nao encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário não encontrado"));
 
         // rotacao: revoga o token usado e emite um par novo
         stored.setRevoked(true);

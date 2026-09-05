@@ -14,11 +14,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * Encapsula a geracao e validacao dos JWTs de access e refresh.
- * Access e refresh usam ALGORITMOS/SECRETS DIFERENTES de proposito: assim,
- * mesmo que o secret de um vaze, o outro tipo de token continua seguro.
- */
+
 @Service
 @RequiredArgsConstructor
 public class JwtService {
@@ -56,7 +52,6 @@ public class JwtService {
                 .sign(refreshAlgorithm());
     }
 
-    /** Valida assinatura + expiracao + claim "type" de um access token e retorna o email (subject). */
     public String parseAndValidateAccessToken(String token) {
         DecodedJWT decoded = JWT.require(accessAlgorithm())
                 .withIssuer(ISSUER)
@@ -66,7 +61,6 @@ public class JwtService {
         return decoded.getSubject();
     }
 
-    /** Valida assinatura + expiracao + claim "type" de um refresh token e retorna o email (subject). */
     public String parseAndValidateRefreshToken(String token) {
         DecodedJWT decoded = JWT.require(refreshAlgorithm())
                 .withIssuer(ISSUER)

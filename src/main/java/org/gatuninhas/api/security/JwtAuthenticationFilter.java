@@ -63,8 +63,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         } catch (JWTVerificationException e) {
-            // token invalido/expirado: apenas segue sem autenticar,
-            // quem decide o que fazer com requisicao nao autenticada e o SecurityConfig.
             SecurityContextHolder.clearContext();
         }
 

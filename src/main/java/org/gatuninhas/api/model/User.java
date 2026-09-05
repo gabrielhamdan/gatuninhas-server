@@ -24,12 +24,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * Usuario da aplicacao (adotante, voluntario ou administrador da ONG).
- * Implementa UserDetails diretamente para simplificar a integracao com o
- * Spring Security. Em projetos maiores, considere separar isso em um
- * adapter proprio.
- */
 @Entity
 @Table(name = "users")
 @Getter
@@ -39,7 +33,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class User implements UserDetails {
-
+	
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -95,4 +89,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
 }
